@@ -25,7 +25,7 @@ services:
   object-ledger:
     networks:
       - skyscan
-    image: iqtlabs/edgetech-object-ledger:v1.2
+    image: iqtlabs/edgetech-object-ledger:latest
     restart: unless-stopped
     depends_on: 
       - mqtt
@@ -36,7 +36,7 @@ services:
   controller:
     networks:
       - skyscan
-    image: iqtlabs/edgetech-axis-ptz-controller:v2.0
+    image: skybot-ptz-controller:latest
     volumes:
       - ./data/to_sort:/data/to_sort
     restart: unless-stopped
@@ -49,7 +49,7 @@ services:
   piaware:
     networks:
       - skyscan
-    image: mikenye/piaware:v9.0.1
+    image: mikenye/piaware:latest
     tty: true
     container_name: piaware
     devices:
@@ -66,7 +66,7 @@ services:
   dump1090-json:
     networks:
       - skyscan
-    image: iqtlabs/edgetech-dump1090-json:v1.1
+    image: iqtlabs/edgetech-dump1090-json:latest
     restart: unless-stopped
     depends_on: 
       - mqtt
@@ -83,7 +83,7 @@ services:
   skyscan-c2:
     networks:
       - skyscan
-    image: iqtlabs/edgetech-skyscan-c2:v1.0
+    image: iqtlabs/edgetech-skyscan-c2:latest
     volumes:
       - ./data/mapping:/data/mapping
     restart: unless-stopped
@@ -98,6 +98,26 @@ services:
     env_file:
       - .env
       - skyscan-c2.env
+
+  console:
+    networks:
+      - skyscan
+    image: iqtlabs/skyscan-console:latest
+    restart: unless-stopped
+    ports:
+      - "80:5555"
+    env_file:
+      - .env
+      - console.env
+
+
+  manager:
+    networks:
+      - skyscan
+    image: skybot-manager:latest
+    restart: unless-stopped
+    env_file:
+      - .env
 
   # occlusion-mapper:
   #   networks:
