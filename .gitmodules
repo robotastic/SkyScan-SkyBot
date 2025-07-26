@@ -1,0 +1,18 @@
+[submodule "controller"]
+	path = controller
+	url = https://github.com/robotastic/skybot-ptz-controller.git
+[submodule "ledger"]
+	path = ledger
+	url = https://github.com/robotastic/skybot-object-ledger.git
+[submodule "console"]
+	path = console
+	url = https://github.com/robotastic/skybot-console.git
+[submodule "manager"]
+	path = manager
+	url = https://github.com/robotastic/skybot-manager.git
+[submodule "dump1090-json"]
+	path = dump1090-json
+	url = https://github.com/robotastic/skybot-dump1090-json.git
+[submodule "skyscan-c2"]
+	path = skyscan-c2
+	url = https://github.com/robotastic/skybot-skyscan-c2.git
