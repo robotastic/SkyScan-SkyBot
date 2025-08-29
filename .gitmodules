@@ -10,9 +10,6 @@
 [submodule "manager"]
 	path = manager
 	url = https://github.com/robotastic/skybot-manager.git
-[submodule "dump1090-json"]
-	path = dump1090-json
-	url = https://github.com/robotastic/skybot-dump1090-json.git
-[submodule "skyscan-c2"]
-	path = skyscan-c2
-	url = https://github.com/robotastic/skybot-skyscan-c2.git
+[submodule "skybot-dump1090-tcp"]
+	path = skybot-dump1090-tcp
+	url = https://github.com/robotastic/skybot-dump1090-tcp.git

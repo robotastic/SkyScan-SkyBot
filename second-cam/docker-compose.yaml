@@ -1,0 +1,38 @@
+version: "3"
+
+networks:
+    skyscan:
+      driver: bridge
+      driver_opts:
+        com.docker.network.driver.mtu: 900
+
+services:
+
+  controller:
+    networks:
+      - skyscan
+    build:
+      context: ../controller/axis-ptz-controller
+      dockerfile: Dockerfile
+    volumes:
+      - ./data/to_sort:/data/to_sort
+    restart: unless-stopped
+    env_file:
+      - .env
+      - axis-ptz-controller.env
+
+
+
+
+  console:
+    networks:
+      - skyscan
+    build:
+      context: ../console
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8888:5556"
+    env_file:
+      - .env
+      - console.env

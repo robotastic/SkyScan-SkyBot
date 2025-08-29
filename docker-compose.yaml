@@ -22,10 +22,12 @@ services:
         max-size: "10M"
         max-file: "10"
 
-  object-ledger:
+  ledger:
     networks:
       - skyscan
-    image: iqtlabs/edgetech-object-ledger:latest
+    build:
+      context: ./ledger/object-ledger
+      dockerfile: Dockerfile
     restart: unless-stopped
     depends_on: 
       - mqtt
@@ -36,7 +38,9 @@ services:
   controller:
     networks:
       - skyscan
-    image: skybot-ptz-controller:latest
+    build:
+      context: ./controller/axis-ptz-controller
+      dockerfile: Dockerfile
     volumes:
       - ./data/to_sort:/data/to_sort
     restart: unless-stopped
@@ -66,7 +70,9 @@ services:
   dump1090-json:
     networks:
       - skyscan
-    image: iqtlabs/edgetech-dump1090-json:latest
+    build:
+      context: ./dump1090-json/dump1090-json
+      dockerfile: Dockerfile
     restart: unless-stopped
     depends_on: 
       - mqtt
@@ -83,13 +89,15 @@ services:
   skyscan-c2:
     networks:
       - skyscan
-    image: iqtlabs/edgetech-skyscan-c2:latest
+    build:
+      context: ./skyscan-c2/skyscan-c2
+      dockerfile: Dockerfile
     volumes:
       - ./data/mapping:/data/mapping
     restart: unless-stopped
     depends_on:
       - mqtt
-      - object-ledger
+      - ledger
     logging:
       driver: "json-file"
       options:
@@ -102,7 +110,9 @@ services:
   console:
     networks:
       - skyscan
-    image: iqtlabs/skyscan-console:latest
+    build:
+      context: ./console
+      dockerfile: Dockerfile
     restart: unless-stopped
     ports:
       - "80:5555"
@@ -114,7 +124,9 @@ services:
   manager:
     networks:
       - skyscan
-    image: skybot-manager:latest
+    build:
+      context: ./manager
+      dockerfile: Dockerfile
     restart: unless-stopped
     env_file:
       - .env
