@@ -28,6 +28,9 @@ services:
     build:
       context: ./ledger/object-ledger
       dockerfile: Dockerfile
+    volumes:
+      - ./data/mapping:/data/mapping
+      - ./airplane-db:/data/airplane-db
     restart: unless-stopped
     depends_on: 
       - mqtt
@@ -35,20 +38,20 @@ services:
       - .env
       - object-ledger.env
 
-  controller:
-    networks:
-      - skyscan
-    build:
-      context: ./controller/axis-ptz-controller
-      dockerfile: Dockerfile
-    volumes:
-      - ./data/to_sort:/data/to_sort
-    restart: unless-stopped
-    depends_on:
-      - mqtt
-    env_file:
-      - .env
-      - axis-ptz-controller.env
+  # controller:
+  #   networks:
+  #     - skyscan
+  #   build:
+  #     context: ./controller/axis-ptz-controller
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ./data/to_sort:/data/to_sort
+  #   restart: unless-stopped
+  #   depends_on:
+  #     - mqtt
+  #   env_file:
+  #     - .env
+  #     - axis-ptz-controller.env
 
   piaware:
     networks:
@@ -67,11 +70,11 @@ services:
       - .env
       - piaware.env
 
-  dump1090-json:
+  dump1090-tcp:
     networks:
       - skyscan
     build:
-      context: ./dump1090-json/dump1090-json
+      context: ./skybot-dump1090-tcp/dump1090-tcp
       dockerfile: Dockerfile
     restart: unless-stopped
     depends_on: 
@@ -84,28 +87,8 @@ services:
         max-file: "10"
     env_file:
       - .env
-      - ./dump1090-json.env
+      - dump1090-tcp.env
 
-  skyscan-c2:
-    networks:
-      - skyscan
-    build:
-      context: ./skyscan-c2/skyscan-c2
-      dockerfile: Dockerfile
-    volumes:
-      - ./data/mapping:/data/mapping
-    restart: unless-stopped
-    depends_on:
-      - mqtt
-      - ledger
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10M"
-        max-file: "10"
-    env_file:
-      - .env
-      - skyscan-c2.env
 
   console:
     networks:
